@@ -1,0 +1,9 @@
+numpy
+pandas
+plotly
+dash
+sqlalchemy
+dash_iconify
+dash-core-components 
+dash-html-components 
+dash-bootstrap-components 

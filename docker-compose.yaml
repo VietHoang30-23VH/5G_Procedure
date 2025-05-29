@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: argus-server
+  namespace: free5gc
+  labels:
+    app: argus
+spec:
+  selector:
+    matchLabels:
+      app: argus
+  template:
+    metadata:
+      labels:
+        app: argus
+    spec:
+      hostNetwork: true
+      containers:
+        - name: argus
+          image: 192.168.5.129:5000/argus-server:v1.0
+          imagePullPolicy: Always
+          securityContext:
+            privileged: true
+          ports:
+            - containerPort: 561
+              hostPort: 561
+              protocol: TCP
+              
+          args: ["-i", "any", "-P", "561"]
+          resources:
+            requests:
+              cpu: 200m
+              memory: 128Mi
+            limits:
+              cpu: 1000m
+              memory: 512Mi
+          volumeMounts:
+            - name: host-dev
+              mountPath: /dev
+      volumes:
+        - name: host-dev
+          hostPath:
+            path: /dev
+            type: Directory
